@@ -1,7 +1,6 @@
 class RoutesName {
 //VericalMenu routes name
-  static const String sidebarView = 'SidebarView';
-  static const String dashboardView = 'DashboardView';
+  static const String dashBoard = 'Dashboard';
   static const String allUser = 'AllUser';
   static const String activeUser = 'ActiveUser';
   static const String inactiveUser = 'InactiveUser';

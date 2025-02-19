@@ -1,4 +1,3 @@
-import 'package:admin_panel/views/sidebar_view.dart';
 import 'package:flutter/material.dart';
 
 class CryptoWithdraw extends StatelessWidget {
@@ -9,12 +8,11 @@ class CryptoWithdraw extends StatelessWidget {
     return Scaffold(
       body: Row(
         children: const [
-          Expanded(flex: 2, child: SidebarView()),
           Expanded(
             flex: 8,
             child: Center(
               child: Text(
-                "Current Selected Menu: CryptoWithdraw",
+                "This is Crypto Withdraw Screen",
                 style: TextStyle(fontSize: 20),
               ),
             ),

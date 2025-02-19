@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 class InterNetExceptionWidget extends StatefulWidget {
   final VoidCallback onPress;
-  const InterNetExceptionWidget({Key? key, required this.onPress})
-      : super(key: key);
+  const InterNetExceptionWidget({super.key, required this.onPress});
 
   @override
   State<InterNetExceptionWidget> createState() =>
@@ -42,9 +40,7 @@ class _InterNetExceptionWidgetState extends State<InterNetExceptionWidget> {
             child: Center(
               child: Text(
                 'RETRY',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           )

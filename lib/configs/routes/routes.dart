@@ -3,12 +3,11 @@ import 'package:admin_panel/screens/dashboard/active_user.dart';
 import 'package:admin_panel/screens/dashboard/all_user.dart';
 import 'package:admin_panel/screens/dashboard/bank_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/crypto_withdraw.dart';
-import 'package:admin_panel/screens/dashboard/dashboard_view.dart';
 import 'package:admin_panel/screens/dashboard/deposit.dart';
 import 'package:admin_panel/screens/dashboard/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user.dart';
 import 'package:admin_panel/screens/dashboard/loan.dart';
-import 'package:admin_panel/views/sidebar_view.dart';
+import 'package:admin_panel/view/dashboard_view.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -16,13 +15,9 @@ class Routes {
     switch (settings.name) {
       //VerticalMenu routes
 
-      case RoutesName.sidebarView:
+      case RoutesName.dashBoard:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const SidebarView());
-
-      case RoutesName.dashboardView:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const DashboardView());
+            builder: (BuildContext context) => DashboardView());
 
       case RoutesName.allUser:
         return MaterialPageRoute(

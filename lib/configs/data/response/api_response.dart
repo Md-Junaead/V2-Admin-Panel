@@ -1,27 +1,22 @@
-
-import 'package:mvvm/data/response/status.dart';
+import 'package:admin_panel/configs/data/response/status.dart';
 
 class ApiResponse<T> {
+  Status? status;
+  T? data;
+  String? message;
 
-  Status? status ;
-  T? data ;
-  String? message ;
+  ApiResponse(this.status, this.data, this.message);
 
-  ApiResponse(this.status , this.data, this.message);
+  ApiResponse.notStarted() : status = Status.notStarted;
 
-  ApiResponse.notStarted() : status = Status.notStarted ;
+  ApiResponse.loading() : status = Status.loading;
 
-  ApiResponse.loading() : status = Status.loading ;
+  ApiResponse.completed(this.data) : status = Status.completed;
 
-  ApiResponse.completed(this.data) : status = Status.completed ;
-
-  ApiResponse.error(this.message) : status = Status.error ;
-
+  ApiResponse.error(this.message) : status = Status.error;
 
   @override
-  String toString(){
-    return "Status : $status \n Message : $message \n Data: $data" ;
+  String toString() {
+    return "Status : $status \n Message : $message \n Data: $data";
   }
-
-
 }

@@ -1,4 +1,3 @@
-// main.dart (updated)
 import 'package:admin_panel/view/dashboard_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +10,13 @@ class AdminPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SidebarViewModel(),
+    return MultiProvider(
+      providers: [
+        // Provide the SidebarViewModel for the sidebar
+        ChangeNotifierProvider(
+          create: (context) => SidebarViewModel(),
+        ),
+      ],
       child: MaterialApp(
         title: "Admin Panel",
         home: DashboardView(),

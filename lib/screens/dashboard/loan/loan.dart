@@ -1,3 +1,4 @@
+import 'package:admin_panel/screens/dashboard/loan/loan_table.dart';
 import 'package:flutter/material.dart';
 
 class Loan extends StatelessWidget {
@@ -6,17 +7,15 @@ class Loan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Loan'),
+      ),
       body: Row(
-        children: const [
+        children: [
           Expanded(
             flex: 8,
-            child: Center(
-              child: Text(
-                "This is Loan Screen",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-          ), // Main content area
+            child: LoanTableScreen(), // Integrate LoanTableScreen here
+          ),
         ],
       ),
     );

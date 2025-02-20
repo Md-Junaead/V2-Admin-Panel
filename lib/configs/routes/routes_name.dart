@@ -8,5 +8,5 @@ class RoutesName {
   static const String bankWithdraw = 'BankWithdraw';
   static const String cryptoWithdraw = 'CryptoWithdraw';
   static const String loan = 'Loan';
-  static const String emi = 'Emi';
+  static const String emiScreen = 'EmiScreen';
 }

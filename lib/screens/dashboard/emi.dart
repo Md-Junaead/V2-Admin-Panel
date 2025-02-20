@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Emi extends StatelessWidget {
-  const Emi({super.key});
+class EmiScreen extends StatelessWidget {
+  const EmiScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

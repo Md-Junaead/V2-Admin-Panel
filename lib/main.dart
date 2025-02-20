@@ -15,7 +15,7 @@ class AdminPanel extends StatelessWidget {
       create: (context) => SidebarViewModel(),
       child: MaterialApp(
         title: "Admin Panel",
-        home: const DashboardView(),
+        home: DashboardView(),
       ),
     );
   }

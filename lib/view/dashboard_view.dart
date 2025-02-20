@@ -1,6 +1,6 @@
 // dashboard_view.dart (updated)
 import 'package:admin_panel/screens/dashboard/active_user.dart';
-import 'package:admin_panel/screens/dashboard/all_user.dart';
+import 'package:admin_panel/screens/dashboard/allUser/all_user.dart';
 import 'package:admin_panel/screens/dashboard/bank_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/crypto_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/deposit.dart';
@@ -41,7 +41,7 @@ class DashboardView extends StatelessWidget {
                   case 'Loan':
                     return const Loan();
                   case 'Emi':
-                    return const Emi();
+                    return const EmiScreen();
                   // Add other cases here
                   default:
                     return Center(

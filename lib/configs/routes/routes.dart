@@ -1,6 +1,6 @@
 import 'package:admin_panel/configs/routes/routes_name.dart';
 import 'package:admin_panel/screens/dashboard/active_user.dart';
-import 'package:admin_panel/screens/dashboard/all_user.dart';
+import 'package:admin_panel/screens/dashboard/allUser/all_user.dart';
 import 'package:admin_panel/screens/dashboard/bank_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/crypto_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/deposit.dart';
@@ -47,9 +47,9 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const Loan());
 
-      case RoutesName.emi:
+      case RoutesName.emiScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const Emi());
+            builder: (BuildContext context) => const EmiScreen());
 
       default:
         return MaterialPageRoute(builder: (_) {

@@ -1,257 +1,163 @@
+// // nominee_screen.dart
 // import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
+// import 'nominee_model.dart';
+// import 'nominee_service.dart';
 
-// void main() {
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
+// class NomineeScreen extends StatefulWidget {
 //   @override
-//   Widget build(BuildContext context) {
-//     return ChangeNotifierProvider(
-//       create: (context) => MenuProvider(),
-//       child: MaterialApp(
-//         debugShowCheckedModeBanner: false,
-//         home: AdminPanel(),
-//       ),
-//     );
-//   }
+//   _NomineeScreenState createState() => _NomineeScreenState();
 // }
 
-// class AdminPanel extends StatelessWidget {
+// class _NomineeScreenState extends State<NomineeScreen> {
+//   late Future<List<Nominee>> _nominees;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _nominees = NomineeService().fetchNominees();
+//   }
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       body: Row(
-//         children: [
-//           Expanded(flex: 2, child: SidebarMenu()), // 20% Sidebar
-//           Expanded(
-//             flex: 8,
-//             child: Consumer<MenuProvider>(
-//               builder: (context, provider, child) {
-//                 return provider.selectedScreen;
-//               },
-//             ),
-//           ),
-//         ],
+//       appBar: AppBar(title: Text('Nominees')),
+//       body: FutureBuilder<List<Nominee>>(
+//         future: _nominees,
+//         builder: (context, snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return Center(child: CircularProgressIndicator());
+//           } else if (snapshot.hasError) {
+//             return Center(child: Text('Error: ${snapshot.error}'));
+//           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+//             return Center(child: Text('No nominees found'));
+//           }
+//           return ListView.builder(
+//             itemCount: snapshot.data!.length,
+//             itemBuilder: (context, index) {
+//               final nominee = snapshot.data![index];
+//               final user = nominee.user;
+//               return Card(
+//                 margin: EdgeInsets.all(8.0),
+//                 child: ListTile(
+//                   title: Text(nominee.name),
+//                   subtitle: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       SizedBox(height: 8.0),
+//                       Text('User Details:'),
+//                       Text('Name: ${user.name}'),
+//                       Text('Email: ${user.email}'),
+//                       Text('Phone: ${user.phoneNo}'),
+//                       Text('Address: ${user.address}'),
+//                     ],
+//                   ),
+//                 ),
+//               );
+//             },
+//           );
+//         },
 //       ),
 //     );
 //   }
 // }
 
-// class SidebarMenu extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     var provider = Provider.of<MenuProvider>(context);
-//     return Container(
-//       color: Colors.grey[200],
-//       child: Column(
-//         children: [
-//           // Top Section
-//           MenuItem(icon: Icons.dashboard, title: "Dashboard", index: 0),
-//           Divider(),
-//           // Middle Section
-//           SubMenuItem(
-//               title: "User",
-//               subItems: ["All User", "Active User", "Inactive User"]),
-//           MenuItem(icon: Icons.account_balance, title: "Deposit", index: 4),
-//           SubMenuItem(
-//               title: "Withdraw",
-//               subItems: ["Bank Withdraw", "Crypto Withdraw"]),
-//           MenuItem(icon: Icons.money, title: "Loan", index: 7),
-//           MenuItem(icon: Icons.payments, title: "EMI", index: 8),
-//           Spacer(),
-//           // Bottom Section
-//           AdminSection(),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
-// class MenuItem extends StatelessWidget {
-//   final IconData icon;
-//   final String title;
-//   final int index;
-//   MenuItem({required this.icon, required this.title, required this.index});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     var provider = Provider.of<MenuProvider>(context);
-//     bool isSelected = provider.selectedIndex == index;
-//     return InkWell(
-//       onTap: () => provider.selectMenu(index),
-//       child: Container(
-//         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-//         color: isSelected ? Colors.blue : Colors.transparent,
-//         child: Row(
-//           children: [
-//             Icon(icon, color: isSelected ? Colors.white : Colors.black),
-//             SizedBox(width: 10),
-//             Text(
-//               title,
-//               style: TextStyle(color: isSelected ? Colors.white : Colors.black),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+// // nominee_service.dart
+// import 'dart:convert';
+// import 'package:admin_panel/screens/nominee/nominee_model.dart';
+// import 'package:http/http.dart' as http;
 
-// class SubMenuItem extends StatefulWidget {
-//   final String title;
-//   final List<String> subItems;
-//   SubMenuItem({required this.title, required this.subItems});
+// class NomineeService {
+//   static const String url = 'http://84.247.161.200:9090/api/nominee/getAll';
 
-//   @override
-//   _SubMenuItemState createState() => _SubMenuItemState();
-// }
+//   Future<List<Nominee>> fetchNominees() async {
+//     final response = await http.get(Uri.parse(url));
 
-// class _SubMenuItemState extends State<SubMenuItem> {
-//   bool isExpanded = false;
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         ListTile(
-//           title: Text(widget.title),
-//           trailing: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
-//           onTap: () {
-//             setState(() {
-//               isExpanded = !isExpanded;
-//             });
-//           },
-//         ),
-//         if (isExpanded)
-//           Column(
-//             children: widget.subItems
-//                 .map((subItem) => Padding(
-//                       padding: EdgeInsets.only(left: 30),
-//                       child: MenuItem(
-//                           icon: Icons.circle,
-//                           title: subItem,
-//                           index: widget.subItems.indexOf(subItem) + 1),
-//                     ))
-//                 .toList(),
-//           ),
-//       ],
-//     );
-//   }
-// }
-
-// class AdminSection extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         CircleAvatar(radius: 30, backgroundColor: Colors.blue),
-//         SizedBox(height: 10),
-//         Text("Admin Name"),
-//         Text("Admin Designation", style: TextStyle(fontSize: 12)),
-//         SizedBox(height: 10),
-//         IconButton(icon: Icon(Icons.logout), onPressed: () {}),
-//       ],
-//     );
-//   }
-// }
-
-// class MenuProvider extends ChangeNotifier {
-//   int selectedIndex = 0;
-//   Widget selectedScreen = DashboardScreen();
-
-//   void selectMenu(int index) {
-//     selectedIndex = index;
-//     switch (index) {
-//       case 0:
-//         selectedScreen = DashboardScreen();
-//         break;
-//       case 1:
-//         selectedScreen = AllUserScreen();
-//         break;
-//       case 4:
-//         selectedScreen = DepositScreen();
-//         break;
-//       case 7:
-//         selectedScreen = LoanScreen();
-//         break;
-//       case 8:
-//         selectedScreen = EmiScreen();
-//         break;
-//       default:
-//         selectedScreen = Placeholder();
+//     if (response.statusCode == 200) {
+//       List<dynamic> data = json.decode(response.body);
+//       return data.map((json) => Nominee.fromJson(json)).toList();
+//     } else {
+//       throw Exception('Failed to load nominees');
 //     }
-//     notifyListeners();
 //   }
 // }
 
-// class DashboardScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(child: Text("Dashboard"));
+
+
+// // nominee_model.dart
+// class Nominee {
+//   final int id;
+//   final String name;
+//   final String email;
+//   final String cellNo;
+//   final DateTime dob;
+//   final String relationship;
+//   final User user;
+
+//   Nominee({
+//     required this.id,
+//     required this.name,
+//     required this.email,
+//     required this.cellNo,
+//     required this.dob,
+//     required this.relationship,
+//     required this.user,
+//   });
+
+//   factory Nominee.fromJson(Map<String, dynamic> json) {
+//     return Nominee(
+//       id: json['id'],
+//       name: json['name'],
+//       email: json['email'],
+//       cellNo: json['cellNo'],
+//       dob: DateTime.parse(json['dob']),
+//       relationship: json['relationship'],
+//       user: User.fromJson(json['user']),
+//     );
 //   }
 // }
 
-// class AllUserScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(child: Text("All Users"));
+// class User {
+//   final int id;
+//   final String userid;
+//   final String password;
+//   final String name;
+//   final String email;
+//   final String phoneNo;
+//   final DateTime dob;
+//   final String address;
+//   final String country;
+//   final String image;
+//   final String referralCode;
+
+//   User({
+//     required this.id,
+//     required this.userid,
+//     required this.password,
+//     required this.name,
+//     required this.email,
+//     required this.phoneNo,
+//     required this.dob,
+//     required this.address,
+//     required this.country,
+//     required this.image,
+//     required this.referralCode,
+//   });
+
+//   factory User.fromJson(Map<String, dynamic> json) {
+//     return User(
+//       id: json['id'],
+//       userid: json['userid'],
+//       password: json['password'],
+//       name: json['name'],
+//       email: json['email'],
+//       phoneNo: json['phoneNo'],
+//       dob: DateTime.parse(json['dob']),
+//       address: json['address'],
+//       country: json['country'],
+//       image: json['image'],
+//       referralCode: json['referralCode'],
+//     );
 //   }
 // }
-
-// class DepositScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(child: Text("Deposit"));
-//   }
-// }
-
-// class LoanScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(child: Text("Loan"));
-//   }
-// }
-
-// class EmiScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(child: Text("EMI"));
-//   }
-// }
-
-// // // Builds the bottom section with user profile
-// //   Widget _buildBottomSection() {
-// //     return Padding(
-// //       padding: const EdgeInsets.all(16.0),
-// //       child: Row(
-// //         children: [
-// //           const CircleAvatar(
-// //             backgroundImage: NetworkImage("https://via.placeholder.com/50"),
-// //           ),
-// //           const SizedBox(width: 10),
-// //           Expanded(
-// //             child: Column(
-// //               crossAxisAlignment: CrossAxisAlignment.start,
-// //               children: const [
-// //                 Text(
-// //                   "Username",
-// //                   style: TextStyle(color: Colors.white),
-// //                 ),
-// //                 Text(
-// //                   "Designation",
-// //                   style: TextStyle(color: Colors.white54),
-// //                 ),
-// //               ],
-// //             ),
-// //           ),
-// //           IconButton(
-// //             icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
-// //             onPressed: () {
-// //               // Handle user profile dropdown actions here
-// //             },
-// //           ),
-// //         ],
-// //       ),
-// //     );
-// //   }

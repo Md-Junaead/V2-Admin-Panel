@@ -6,7 +6,7 @@ import 'package:admin_panel/screens/dashboard/crypto_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/deposit.dart';
 import 'package:admin_panel/screens/dashboard/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user.dart';
-import 'package:admin_panel/screens/dashboard/loan.dart';
+import 'package:admin_panel/screens/dashboard/loan/loan.dart';
 import 'package:admin_panel/view/sidebar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

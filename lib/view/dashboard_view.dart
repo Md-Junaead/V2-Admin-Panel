@@ -5,7 +5,7 @@ import 'package:admin_panel/screens/dashboard/bank_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/crypto_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user.dart';
-import 'package:admin_panel/screens/dashboard/loan/loan.dart';
+import 'package:admin_panel/screens/dashboard/loan/loan_screen.dart';
 import 'package:admin_panel/screens/deposit/deposit_screen.dart';
 import 'package:admin_panel/view/sidebar_view.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class DashboardView extends StatelessWidget {
                   case 'Crypto Withdraw':
                     return const CryptoWithdraw();
                   case 'Loan':
-                    return const Loan();
+                    return LoanScreen();
                   case 'Emi':
                     return const EmiScreen();
                   // Add other cases here

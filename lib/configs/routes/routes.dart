@@ -45,7 +45,7 @@ class Routes {
 
       case RoutesName.loanScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const LoanScreen());
+            builder: (BuildContext context) => LoanScreen());
 
       case RoutesName.emiScreen:
         return MaterialPageRoute(

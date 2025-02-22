@@ -1,4 +1,3 @@
-// sidebar_view.dart (updated)
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:admin_panel/view_models/sidebar_view_model.dart';
@@ -8,17 +7,30 @@ class SidebarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.2,
-      color: Colors.blueGrey[900],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildTopSection(),
-          _buildMiddleSection(context),
-          _buildBottomSection(),
-        ],
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Get the screen width for responsive design
+        double sidebarWidth = constraints.maxWidth * 0.2;
+
+        // Make sure the sidebar width doesn't go below a minimum value on smaller screens
+        if (constraints.maxWidth < 600) {
+          sidebarWidth =
+              constraints.maxWidth * 0.4; // For small screens, use 40%
+        }
+
+        return Container(
+          width: sidebarWidth,
+          color: Colors.blueGrey[900],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTopSection(),
+              _buildMiddleSection(context),
+              _buildBottomSection(),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -107,6 +119,7 @@ class SidebarView extends StatelessWidget {
           title: Text(title,
               style: TextStyle(
                 color: _getColor(isSelected, isHovered),
+                fontSize: 16, // Set a base font size
               )),
           onTap: onTap,
         ),

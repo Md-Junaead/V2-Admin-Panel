@@ -3,10 +3,10 @@ import 'package:admin_panel/screens/dashboard/activeuser/reg_user_screen.dart';
 import 'package:admin_panel/screens/dashboard/allUser/all_user.dart';
 import 'package:admin_panel/screens/dashboard/bank_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/crypto_withdraw.dart';
-import 'package:admin_panel/screens/dashboard/deposit/deposit.dart';
 import 'package:admin_panel/screens/dashboard/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user.dart';
 import 'package:admin_panel/screens/dashboard/loan/loan.dart';
+import 'package:admin_panel/screens/deposit/deposit_screen.dart';
 import 'package:admin_panel/view/sidebar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,7 @@ class DashboardView extends StatelessWidget {
                   case 'Inactive User':
                     return const InactiveUser();
                   case 'Deposit':
-                    return const Deposit();
+                    return const DepositScreen();
                   case 'Bank Withdraw':
                     return const BankWithdraw();
                   case 'Crypto Withdraw':

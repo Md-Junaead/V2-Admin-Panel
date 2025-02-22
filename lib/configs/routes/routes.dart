@@ -3,10 +3,10 @@ import 'package:admin_panel/screens/dashboard/activeuser/reg_user_screen.dart';
 import 'package:admin_panel/screens/dashboard/allUser/all_user.dart';
 import 'package:admin_panel/screens/dashboard/bank_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/crypto_withdraw.dart';
-import 'package:admin_panel/screens/dashboard/deposit/deposit.dart';
 import 'package:admin_panel/screens/dashboard/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user.dart';
-import 'package:admin_panel/screens/dashboard/loan/loan.dart';
+import 'package:admin_panel/screens/dashboard/loan/loan_screen.dart';
+import 'package:admin_panel/screens/deposit/deposit_screen.dart';
 import 'package:admin_panel/view/dashboard_view.dart';
 import 'package:flutter/material.dart';
 
@@ -31,9 +31,9 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const InactiveUser());
 
-      case RoutesName.deposit:
+      case RoutesName.depositScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const Deposit());
+            builder: (BuildContext context) => const DepositScreen());
 
       case RoutesName.bankWithdraw:
         return MaterialPageRoute(
@@ -43,9 +43,9 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const CryptoWithdraw());
 
-      case RoutesName.loan:
+      case RoutesName.loanScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const Loan());
+            builder: (BuildContext context) => const LoanScreen());
 
       case RoutesName.emiScreen:
         return MaterialPageRoute(

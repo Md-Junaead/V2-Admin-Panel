@@ -23,7 +23,7 @@ class _RegUserScreenState extends State<RegUserScreen> {
     final userViewModel = Provider.of<RegUserViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('User List')),
+      appBar: AppBar(title: Text('User List')),
       body: userViewModel.isLoading
           ? const Center(child: CircularProgressIndicator())
           : LayoutBuilder(
@@ -111,6 +111,13 @@ class _RegUserScreenState extends State<RegUserScreen> {
                 );
               },
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Refresh the user list
+          Provider.of<RegUserViewModel>(context, listen: false).fetchUsers();
+        },
+        child: const Icon(Icons.refresh),
+      ),
     );
   }
 }

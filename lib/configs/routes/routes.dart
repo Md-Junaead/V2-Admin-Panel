@@ -1,9 +1,9 @@
 import 'package:admin_panel/configs/routes/routes_name.dart';
-import 'package:admin_panel/screens/dashboard/active_user.dart';
+import 'package:admin_panel/screens/dashboard/activeuser/reg_user_screen.dart';
 import 'package:admin_panel/screens/dashboard/allUser/all_user.dart';
 import 'package:admin_panel/screens/dashboard/bank_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/crypto_withdraw.dart';
-import 'package:admin_panel/screens/dashboard/deposit.dart';
+import 'package:admin_panel/screens/dashboard/deposit/deposit.dart';
 import 'package:admin_panel/screens/dashboard/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user.dart';
 import 'package:admin_panel/screens/dashboard/loan/loan.dart';
@@ -23,9 +23,9 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const AllUser());
 
-      case RoutesName.activeUser:
+      case RoutesName.regUserScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const ActiveUser());
+            builder: (BuildContext context) => RegUserScreen());
 
       case RoutesName.inactiveUser:
         return MaterialPageRoute(

@@ -1,9 +1,9 @@
 // dashboard_view.dart (updated)
-import 'package:admin_panel/screens/dashboard/active_user.dart';
+import 'package:admin_panel/screens/dashboard/activeuser/reg_user_screen.dart';
 import 'package:admin_panel/screens/dashboard/allUser/all_user.dart';
 import 'package:admin_panel/screens/dashboard/bank_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/crypto_withdraw.dart';
-import 'package:admin_panel/screens/dashboard/deposit.dart';
+import 'package:admin_panel/screens/dashboard/deposit/deposit.dart';
 import 'package:admin_panel/screens/dashboard/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user.dart';
 import 'package:admin_panel/screens/dashboard/loan/loan.dart';
@@ -28,8 +28,8 @@ class DashboardView extends StatelessWidget {
                 switch (vm.selectedMenu) {
                   case 'All User':
                     return const AllUser();
-                  case 'Active User':
-                    return const ActiveUser();
+                  case 'Reg User':
+                    return RegUserScreen();
                   case 'Inactive User':
                     return const InactiveUser();
                   case 'Deposit':

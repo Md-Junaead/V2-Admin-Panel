@@ -66,29 +66,54 @@
 
 
 
+// //loan.dart
+// import 'package:admin_panel/screens/dashboard/loan/loan_table.dart';
+// import 'package:flutter/material.dart';
 
-// // loan_table.dart
+// class LoanScreen extends StatelessWidget {
+//   const LoanScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Loan'),
+//         centerTitle: true,
+//       ),
+//       body: Row(
+//         children: [
+//           Expanded(
+//             flex: 8,
+//             child: LoanTable(), // Integrate LoanTableScreen here
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+
+
 // import 'dart:convert';
 
 // import 'package:admin_panel/screens/dashboard/loan/loan_model.dart';
 // import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
+// import 'package:provider/provider.dart';
 
-// class LoanTableScreen extends StatefulWidget {
-//   @override
-//   _LoanTableScreenState createState() => _LoanTableScreenState();
-// }
-
-// class _LoanTableScreenState extends State<LoanTableScreen> {
+// // LoanDataProvider to manage state
+// class LoanDataProvider with ChangeNotifier {
 //   List<LoanModel> _loans = [];
 //   bool _isLoading = true;
 //   String _errorMessage = '';
+//   String _searchQuery = '';
+//   String _sortOption = 'New';
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     fetchLoanData();
-//   }
+//   List<LoanModel> get loans => _loans;
+//   bool get isLoading => _isLoading;
+//   String get errorMessage => _errorMessage;
+//   String get searchQuery => _searchQuery;
+//   String get sortOption => _sortOption;
 
 //   // Fetch loan data from the API
 //   Future<void> fetchLoanData() async {
@@ -99,23 +124,39 @@
 
 //       if (response.statusCode == 200) {
 //         final List<dynamic> data = json.decode(response.body);
-//         setState(() {
-//           _loans = data.map((loan) => LoanModel.fromJson(loan)).toList();
-//           _isLoading = false;
-//         });
+//         _loans = data.map((loan) => LoanModel.fromJson(loan)).toList();
+//         _isLoading = false;
+//         notifyListeners();
 //       } else {
 //         // Error message from the API response
-//         setState(() {
-//           _errorMessage = 'Error: ${response.statusCode} - ${response.body}';
-//           _isLoading = false;
-//         });
+//         _errorMessage = 'Error: ${response.statusCode} - ${response.body}';
+//         _isLoading = false;
+//         notifyListeners();
 //       }
 //     } catch (error) {
-//       setState(() {
-//         _errorMessage = 'Error fetching data: $error';
-//         _isLoading = false;
-//       });
+//       _errorMessage = 'Error fetching data: $error';
+//       _isLoading = false;
+//       notifyListeners();
 //     }
+//   }
+
+//   // Search functionality
+//   void updateSearchQuery(String query) {
+//     _searchQuery = query;
+//     notifyListeners();
+//   }
+
+//   // Sorting functionality
+//   void updateSortOption(String option) {
+//     _sortOption = option;
+//     _loans.sort((a, b) {
+//       if (option == 'New') {
+//         return b.requestDate.compareTo(a.requestDate);
+//       } else {
+//         return a.requestDate.compareTo(b.requestDate);
+//       }
+//     });
+//     notifyListeners();
 //   }
 
 //   // Helper function to format the date to Day/Month/Year
@@ -127,75 +168,138 @@
 //       return date; // Return the original date if parsing fails
 //     }
 //   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: _isLoading
-//           ? const Center(child: CircularProgressIndicator())
-//           : _errorMessage.isNotEmpty
-//               ? Center(child: Text(_errorMessage))
-//               : LayoutBuilder(
-//                   builder: (context, constraints) {
-//                     return SingleChildScrollView(
-//                       scrollDirection: Axis
-//                           .horizontal, // Make the table scrollable horizontally
-//                       child: DataTable(
-//                         columns: const [
-//                           DataColumn(label: Text('Loan ID')),
-//                           DataColumn(label: Text('Name')),
-//                           DataColumn(label: Text('Loan Amount')),
-//                           DataColumn(label: Text('Weekly Pay')),
-//                           DataColumn(label: Text('Total Pay')),
-//                           DataColumn(label: Text('Tenure')),
-//                           DataColumn(label: Text('Status')),
-//                           DataColumn(label: Text('Request Date')),
-//                         ],
-//                         rows: _loans.map((loan) {
-//                           return DataRow(cells: [
-//                             DataCell(Text(loan.id.toString())),
-//                             DataCell(Text(loan.userRegistration.name)),
-//                             DataCell(Text(loan.loanAmount.toString())),
-//                             DataCell(Text(loan.weeklyPay.toStringAsFixed(2))),
-//                             DataCell(Text(loan.totalPay.toStringAsFixed(2))),
-//                             DataCell(Text(loan.tenure.toString())),
-//                             DataCell(Text(loan.status)),
-//                             DataCell(Text(formatDate(loan
-//                                 .requestDate))), // Applying the date format here
-//                           ]);
-//                         }).toList(),
-//                       ),
-//                     );
-//                   },
-//                 ),
-//     );
-//   }
 // }
 
+// class LoanTable extends StatefulWidget {
+//   const LoanTable({super.key});
 
-// //loan.dart
-// import 'package:admin_panel/screens/dashboard/loan/loan_table.dart';
-// import 'package:flutter/material.dart';
+//   @override
+//   _LoanTableState createState() => _LoanTableState();
+// }
 
-// class Loan extends StatelessWidget {
-//   const Loan({super.key});
+// class _LoanTableState extends State<LoanTable> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     // Fetch loan data when screen initializes
+//     Provider.of<LoanDataProvider>(context, listen: false).fetchLoanData();
+//   }
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Loan'),
+//       body: Consumer<LoanDataProvider>(
+//         builder: (context, loanDataProvider, child) {
+//           return Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: loanDataProvider.isLoading
+//                 ? const Center(child: CircularProgressIndicator())
+//                 : loanDataProvider.errorMessage.isNotEmpty
+//                     ? Center(child: Text(loanDataProvider.errorMessage))
+//                     : Column(
+//                         children: [
+//                           // Table header
+//                           Row(
+//                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                             children: [
+//                               Text(
+//                                 'Loan Table',
+//                                 style: TextStyle(
+//                                   color: Colors.black,
+//                                   fontWeight: FontWeight.bold,
+//                                   fontSize: 25,
+//                                 ),
+//                               ),
+//                               // Search option
+//                               SizedBox(
+//                                 width: 300,
+//                                 child: TextField(
+//                                   onChanged: (value) {
+//                                     loanDataProvider.updateSearchQuery(value);
+//                                   },
+//                                   decoration: InputDecoration(
+//                                     hintText: 'Search by UserID or Name',
+//                                     border: OutlineInputBorder(),
+//                                     prefixIcon: Icon(Icons.search),
+//                                   ),
+//                                 ),
+//                               ),
+//                               // Sorting option
+//                               DropdownButton<String>(
+//                                 value: loanDataProvider.sortOption,
+//                                 onChanged: (value) {
+//                                   if (value != null) {
+//                                     loanDataProvider.updateSortOption(value);
+//                                   }
+//                                 },
+//                                 items: const [
+//                                   DropdownMenuItem(
+//                                     value: 'New',
+//                                     child: Text('New'),
+//                                   ),
+//                                   DropdownMenuItem(
+//                                     value: 'Old',
+//                                     child: Text('Old'),
+//                                   ),
+//                                 ],
+//                               ),
+//                             ],
+//                           ),
+//                           const SizedBox(height: 10),
+//                           // Loan table
+//                           Expanded(
+//                             child: SingleChildScrollView(
+//                               scrollDirection: Axis.horizontal,
+//                               child: DataTable(
+//                                 columns: const [
+//                                   DataColumn(label: Text('Loan ID')),
+//                                   DataColumn(label: Text('Name')),
+//                                   DataColumn(label: Text('Loan Amount')),
+//                                   DataColumn(label: Text('Weekly Pay')),
+//                                   DataColumn(label: Text('Total Pay')),
+//                                   DataColumn(label: Text('Tenure')),
+//                                   DataColumn(label: Text('Status')),
+//                                   DataColumn(label: Text('Request Date')),
+//                                 ],
+//                                 rows: loanDataProvider.loans
+//                                     .where((loan) =>
+//                                         loan.userRegistration.name
+//                                             .toLowerCase()
+//                                             .contains(loanDataProvider
+//                                                 .searchQuery
+//                                                 .toLowerCase()) ||
+//                                         loan.id.toString().contains(
+//                                             loanDataProvider.searchQuery))
+//                                     .map((loan) {
+//                                   return DataRow(cells: [
+//                                     DataCell(Text(loan.id.toString())),
+//                                     DataCell(Text(loan.userRegistration.name)),
+//                                     DataCell(Text(loan.loanAmount.toString())),
+//                                     DataCell(Text(
+//                                         loan.weeklyPay.toStringAsFixed(2))),
+//                                     DataCell(
+//                                         Text(loan.totalPay.toStringAsFixed(2))),
+//                                     DataCell(Text(loan.tenure.toString())),
+//                                     DataCell(Text(loan.status)),
+//                                     DataCell(Text(loanDataProvider
+//                                         .formatDate(loan.requestDate))),
+//                                   ]);
+//                                 }).toList(),
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//           );
+//         },
 //       ),
-//       body: Row(
-//         children: [
-//           Expanded(
-//             flex: 8,
-//             child: LoanTableScreen(), // Integrate LoanTableScreen here
-//           ),
-//         ],
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () {
+//           // Refresh the loan data when pressed
+//           Provider.of<LoanDataProvider>(context, listen: false).fetchLoanData();
+//         },
+//         child: const Icon(Icons.refresh),
 //       ),
 //     );
 //   }
 // }
-

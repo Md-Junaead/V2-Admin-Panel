@@ -1,4 +1,4 @@
-import 'package:admin_panel/screens/dashboard/activeuser/reg_model.dart';
+import 'package:admin_panel/screens/dashboard/all_user/reg_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

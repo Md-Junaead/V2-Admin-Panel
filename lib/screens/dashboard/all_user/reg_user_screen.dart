@@ -1,4 +1,4 @@
-import 'package:admin_panel/screens/dashboard/activeuser/reg_user_view_mode.dart';
+import 'package:admin_panel/screens/dashboard/all_user/reg_user_view_mode.dart';
 import 'package:admin_panel/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

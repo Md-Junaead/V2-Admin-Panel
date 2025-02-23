@@ -64,45 +64,50 @@ class _LoanTableState extends State<LoanTable> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _errorMessage.isNotEmpty
-              ? Center(child: Text(_errorMessage))
-              : LayoutBuilder(
-                  builder: (context, constraints) {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis
-                          .horizontal, // Make the table scrollable horizontally
-                      child: DataTable(
-                        columns: const [
-                          DataColumn(label: Text('Loan ID')),
-                          DataColumn(label: Text('Name')),
-                          DataColumn(label: Text('Loan Amount')),
-                          DataColumn(label: Text('Weekly Pay')),
-                          DataColumn(label: Text('Total Pay')),
-                          DataColumn(label: Text('Tenure')),
-                          DataColumn(label: Text('Status')),
-                          DataColumn(label: Text('Request Date')),
-                        ],
-                        rows: _loans.map((loan) {
-                          return DataRow(cells: [
-                            DataCell(Text(loan.id.toString())),
-                            DataCell(Text(loan.userRegistration.name)),
-                            DataCell(Text(loan.loanAmount.toString())),
-                            DataCell(Text(loan.weeklyPay.toStringAsFixed(2))),
-                            DataCell(Text(loan.totalPay.toStringAsFixed(2))),
-                            DataCell(Text(loan.tenure.toString())),
-                            DataCell(Text(loan.status)),
-                            DataCell(Text(formatDate(loan
-                                .requestDate))), // Applying the date format here
-                          ]);
-                        }).toList(),
-                      ),
-                    );
-                  },
-                ),
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : _errorMessage.isNotEmpty
+                ? Center(child: Text(_errorMessage))
+                : LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis
+                            .horizontal, // Make the table scrollable horizontally
+                        child: DataTable(
+                          columns: const [
+                            DataColumn(label: Text('Loan ID')),
+                            DataColumn(label: Text('Name')),
+                            DataColumn(label: Text('Loan Amount')),
+                            DataColumn(label: Text('Weekly Pay')),
+                            DataColumn(label: Text('Total Pay')),
+                            DataColumn(label: Text('Tenure')),
+                            DataColumn(label: Text('Status')),
+                            DataColumn(label: Text('Request Date')),
+                          ],
+                          rows: _loans.map((loan) {
+                            return DataRow(cells: [
+                              DataCell(Text(loan.id.toString())),
+                              DataCell(Text(loan.userRegistration.name)),
+                              DataCell(Text(loan.loanAmount.toString())),
+                              DataCell(Text(loan.weeklyPay.toStringAsFixed(2))),
+                              DataCell(Text(loan.totalPay.toStringAsFixed(2))),
+                              DataCell(Text(loan.tenure.toString())),
+                              DataCell(Text(loan.status)),
+                              DataCell(Text(formatDate(loan.requestDate))),
+                            ]);
+                          }).toList(),
+                        ),
+                      );
+                    },
+                  ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: fetchLoanData, // Refresh the loan data when pressed
+        child: const Icon(Icons.refresh),
+      ),
     );
   }
 }

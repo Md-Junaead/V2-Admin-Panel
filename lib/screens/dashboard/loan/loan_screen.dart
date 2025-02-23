@@ -10,6 +10,7 @@ class LoanScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Loan'),
+        centerTitle: true,
       ),
       body: Row(
         children: [

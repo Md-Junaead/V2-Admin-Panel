@@ -1,11 +1,11 @@
 // dashboard_view.dart (updated)
-import 'package:admin_panel/screens/dashboard/activeuser/reg_user_screen.dart';
-import 'package:admin_panel/screens/dashboard/allUser/all_user.dart';
+import 'package:admin_panel/screens/dashboard/all_user/reg_user_screen.dart';
+import 'package:admin_panel/screens/dashboard/active_user/all_user.dart';
 import 'package:admin_panel/screens/dashboard/bank_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/crypto_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user.dart';
-import 'package:admin_panel/screens/dashboard/loan/loan.dart';
+import 'package:admin_panel/screens/dashboard/loan/loan_screen.dart';
 import 'package:admin_panel/screens/deposit/deposit_screen.dart';
 import 'package:admin_panel/view/sidebar_view.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +27,9 @@ class DashboardView extends StatelessWidget {
               builder: (context, vm, _) {
                 switch (vm.selectedMenu) {
                   case 'All User':
-                    return const AllUser();
-                  case 'Reg User':
-                    return RegUserScreen();
+                    return const RegUserScreen();
+                  case 'Active User':
+                    return AllUser();
                   case 'Inactive User':
                     return const InactiveUser();
                   case 'Deposit':
@@ -39,7 +39,7 @@ class DashboardView extends StatelessWidget {
                   case 'Crypto Withdraw':
                     return const CryptoWithdraw();
                   case 'Loan':
-                    return const Loan();
+                    return LoanScreen();
                   case 'Emi':
                     return const EmiScreen();
                   // Add other cases here

@@ -1,6 +1,5 @@
-import 'package:admin_panel/screens/dashboard/allUser/nominee_view_model.dart';
-import 'package:admin_panel/screens/dashboard/activeuser/reg_user_view_mode.dart';
-import 'package:admin_panel/screens/dashboard/loan/loan_view_model.dart';
+import 'package:admin_panel/screens/dashboard/active_user/nominee_view_model.dart';
+import 'package:admin_panel/screens/dashboard/all_user/reg_user_view_mode.dart';
 import 'package:admin_panel/screens/deposit/deposit_view_model.dart';
 import 'package:admin_panel/view/dashboard_view.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +26,6 @@ class AdminPanel extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => NomineeViewModel()),
         ChangeNotifierProvider(
           create: (context) => RegUserViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => LoanViewModel(),
         ),
       ],
       child: MaterialApp(

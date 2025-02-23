@@ -55,7 +55,7 @@ class SidebarView extends StatelessWidget {
         child: ListView(
           children: [
             _buildExpandableMenuItem(context, "User", Icons.person_outline,
-                ["All User", "Reg User", "Inactive User"]),
+                ["All User", "Active User", "Inactive User"]),
             _buildMenuItem(context, "Deposit", Icons.account_balance_wallet),
             _buildExpandableMenuItem(
                 context, "Withdraw", Icons.payment, ["Bank", "Crypto"]),

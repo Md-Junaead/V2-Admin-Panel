@@ -42,7 +42,7 @@ class _RegUserScreenState extends State<RegUserScreen> {
                         children: [
                           // Screen Title
                           const Text(
-                            'Registered Users',
+                            'All Users',
                             style: TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.bold,

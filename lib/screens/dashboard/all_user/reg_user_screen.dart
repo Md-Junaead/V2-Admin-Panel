@@ -186,11 +186,14 @@ class _RegUserScreenState extends State<RegUserScreen> {
                             rows: userViewModel.filteredUsers.map((user) {
                               return DataRow(
                                 cells: [
-                                  DataCell(Text(user.userId)),
+                                  DataCell(Text(user.userid)),
                                   DataCell(Text(user.name)),
                                   DataCell(Text(user.email)),
-                                  DataCell(Text(user.phoneNo)),
-                                  DataCell(Text(user.address)),
+                                  DataCell(Text(user.phoneNo ??
+                                      'N/A')), // Provide 'N/A' if PhoneNO is null
+                                  DataCell(Text(user.address ??
+                                      'N/A')), // Provide 'N/A' if address is null
+
                                   DataCell(Text(user.country)),
                                 ],
                               );

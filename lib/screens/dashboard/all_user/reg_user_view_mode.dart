@@ -4,13 +4,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class RegUserViewModel extends ChangeNotifier {
-  List<RegUserModel> _users = [];
-  List<RegUserModel> _filteredUsers = [];
+  List<UserRegistration> _users = [];
+  List<UserRegistration> _filteredUsers = [];
   bool _isLoading = false;
   String _searchQuery = '';
 
-  List<RegUserModel> get users => _users;
-  List<RegUserModel> get filteredUsers => _filteredUsers;
+  List<UserRegistration> get users => _users;
+  List<UserRegistration> get filteredUsers => _filteredUsers;
   bool get isLoading => _isLoading;
 
   // Fetch users from API
@@ -20,12 +20,13 @@ class RegUserViewModel extends ChangeNotifier {
 
     try {
       final response = await http.get(
-        Uri.parse('http://84.247.161.200:9090/api/microbank/get'),
+        Uri.parse('http://108.181.173.121:7071/api/userRegistration/get'),
+        // Uri.parse('http://84.247.161.200:9090/api/microbank/get'),
       );
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
-        _users = data.map((user) => RegUserModel.fromJson(user)).toList();
+        _users = data.map((user) => UserRegistration.fromJson(user)).toList();
         _filteredUsers = List.from(_users); // Initialize filtered list
       }
     } catch (e) {
@@ -43,10 +44,12 @@ class RegUserViewModel extends ChangeNotifier {
       _filteredUsers = List.from(_users);
     } else {
       _filteredUsers = _users.where((user) {
-        return user.userId.toLowerCase().contains(query.toLowerCase()) ||
-            user.name.toLowerCase().contains(query.toLowerCase()) ||
-            user.email.toLowerCase().contains(query.toLowerCase()) ||
-            user.phoneNo.toLowerCase().contains(query.toLowerCase());
+        return (user.userid?.toLowerCase().contains(query.toLowerCase()) ??
+                false) ||
+            (user.name.toLowerCase().contains(query.toLowerCase())) ||
+            (user.email.toLowerCase().contains(query.toLowerCase())) ||
+            (user.phoneNo?.toLowerCase().contains(query.toLowerCase()) ??
+                false);
       }).toList();
     }
     notifyListeners();

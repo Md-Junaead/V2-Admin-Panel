@@ -42,6 +42,7 @@ class DashboardView extends StatelessWidget {
                     return LoanScreen();
                   case 'Emi':
                     return const EmiScreen();
+
                   // Add other cases here
                   default:
                     return Center(

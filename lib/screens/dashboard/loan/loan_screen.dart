@@ -9,10 +9,6 @@ class LoanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Updated: Already correct in provided code, but explicitly typed as BuildContext for clarity
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Loan'),
-        centerTitle: true,
-      ),
       body: Row(
         children: [
           Expanded(

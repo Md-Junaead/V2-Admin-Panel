@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:admin_panel/view/sidebar_view.dart'; // updated line: import SidebarView
 
 class UserDetailScreen extends StatelessWidget {
   final String userid;
@@ -27,30 +28,45 @@ class UserDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('User Details'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context); // Go back to the previous screen
-          },
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            _buildUserDetailRow('User ID:', userid),
-            _buildUserDetailRow('Name:', name),
-            _buildUserDetailRow('Email:', email),
-            _buildUserDetailRow('Phone No:', phoneNo),
-            _buildUserDetailRow('Address:', address),
-            _buildUserDetailRow('Country:', country),
-            // Add more details if needed
-          ],
-        ),
+      body: Row(
+        // updated line: add Row to include sidebar and content
+        children: [
+          const Expanded(
+              flex: 2,
+              child:
+                  SidebarView()), // updated line: include SidebarView on left side
+          Expanded(
+            flex: 8,
+            child: Scaffold(
+              // updated line: wrap content in an inner Scaffold
+              appBar: AppBar(
+                title: const Text('User Details'),
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(context); // Go back to the previous screen
+                  },
+                ),
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    _buildUserDetailRow('User ID:', userid),
+                    _buildUserDetailRow('Name:', name),
+                    _buildUserDetailRow('Email:', email),
+                    _buildUserDetailRow('Phone No:', phoneNo),
+                    _buildUserDetailRow('Address:', address),
+                    _buildUserDetailRow('Country:', country),
+                    // Add more details if needed
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

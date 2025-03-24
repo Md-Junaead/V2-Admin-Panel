@@ -34,33 +34,36 @@ class _RegUserScreenState extends State<RegUserScreen> {
           ? const Center(child: CircularProgressIndicator())
           : LayoutBuilder(
               builder: (context, constraints) {
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    children: [
-                      // Header Section: Title, Search Bar, Sort Dropdown
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Screen Title
-                          const Text(
-                            'All Users',
-                            style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                return SelectionArea(
+                  // updated line: wrap with SelectionArea to enable text selection on desktop
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      children: [
+                        // Header Section: Title, Search Bar, Sort Dropdown
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Screen Title
+                            const Text(
+                              'All Users',
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
-                          // Search Bar
-                          _buildSearchBar(userViewModel),
-                          // Sort Dropdown
-                          _buildSortDropdown(),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      // Data Table
-                      _buildDataTable(context, constraints, userViewModel),
-                    ],
+                            // Search Bar
+                            _buildSearchBar(userViewModel),
+                            // Sort Dropdown
+                            _buildSortDropdown(),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        // Data Table
+                        _buildDataTable(context, constraints, userViewModel),
+                      ],
+                    ),
                   ),
                 );
               },

@@ -33,7 +33,7 @@ class Routes {
 
       case RoutesName.depositScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const DepositScreen());
+            builder: (BuildContext context) => DepositScreen());
 
       case RoutesName.bankWithdraw:
         return MaterialPageRoute(

@@ -1,80 +1,7 @@
-import 'dart:convert';
-
-import 'package:admin_panel/screens/dashboard/loan/loan_model.dart';
+import 'package:admin_panel/screens/dashboard/loan/loan_provider.dart';
 import 'package:admin_panel/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-
-// LoanDataProvider to manage state
-class LoanDataProvider with ChangeNotifier {
-  List<LoanModel> _loans = [];
-  bool _isLoading = true;
-  String _errorMessage = '';
-  String _searchQuery = '';
-  String _sortOption = 'New';
-
-  List<LoanModel> get loans => _loans;
-  bool get isLoading => _isLoading;
-  String get errorMessage => _errorMessage;
-  String get searchQuery => _searchQuery;
-  String get sortOption => _sortOption;
-
-  // Fetch loan data from the API
-  Future<void> fetchLoanData() async {
-    final url = 'http://84.247.161.200:9090/api/loan/all';
-
-    try {
-      final response = await http.get(Uri.parse(url));
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        _loans = data.map((loan) => LoanModel.fromJson(loan)).toList();
-        _isLoading = false;
-        notifyListeners();
-      } else {
-        // Error message from the API response
-        _errorMessage = 'Error: ${response.statusCode} - ${response.body}';
-        _isLoading = false;
-        notifyListeners();
-      }
-    } catch (error) {
-      _errorMessage = 'Error fetching data: $error';
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
-  // Search functionality
-  void updateSearchQuery(String query) {
-    _searchQuery = query;
-    notifyListeners();
-  }
-
-  // Sorting functionality
-  void updateSortOption(String option) {
-    _sortOption = option;
-    _loans.sort((a, b) {
-      if (option == 'New') {
-        return b.requestdate
-            .compareTo(a.requestdate); // Sort by date descending
-      } else {
-        return a.requestdate.compareTo(b.requestdate); // Sort by date ascending
-      }
-    });
-    notifyListeners();
-  }
-
-  // Helper function to format the date to Day/Month/Year
-  String formatDate(String date) {
-    try {
-      DateTime parsedDate = DateTime.parse(date); // Parse the date from string
-      return "${parsedDate.day.toString().padLeft(2, '0')}/${(parsedDate.month).toString().padLeft(2, '0')}/${parsedDate.year}"; // Format as Day/Month/Year
-    } catch (e) {
-      return date; // Return the original date if parsing fails
-    }
-  }
-}
 
 class LoanTable extends StatefulWidget {
   const LoanTable({super.key});
@@ -88,7 +15,8 @@ class _LoanTableState extends State<LoanTable> {
   void initState() {
     super.initState();
     // Fetch loan data when screen initializes
-    Provider.of<LoanDataProvider>(context, listen: false).fetchLoanData();
+    Provider.of<LoanProvider>(context, listen: false)
+        .fetchLoanData(); // Updated: Changed LoanDataProvider to LoanProvider
   }
 
   @override
@@ -97,10 +25,12 @@ class _LoanTableState extends State<LoanTable> {
     String selectedSortOption = 'New';
 
     return Scaffold(
-      backgroundColor: Colors.grey[100], // Light background for contrast
-      body: Consumer<LoanDataProvider>(
-          builder: (context, loanDataProvider, child) {
-        return loanDataProvider.isLoading
+      backgroundColor: Colors.grey[100], // Correct in provided code
+      body: Consumer<LoanProvider>(
+          // Updated: Changed LoanDataProvider to LoanProvider
+          builder: (context, loanProvider, child) {
+        // Updated: Changed variable name to loanProvider
+        return loanProvider.isLoading
             ? const Center(child: CircularProgressIndicator())
             : LayoutBuilder(
                 builder: (context, constraints) {
@@ -111,7 +41,8 @@ class _LoanTableState extends State<LoanTable> {
                   bool isMediumScreen = maxWidth > 800 && maxWidth <= 1200;
 
                   return SingleChildScrollView(
-                    padding: const EdgeInsets.all(12.0),
+                    padding:
+                        const EdgeInsets.all(12.0), // Correct in provided code
                     child: Column(
                       children: [
                         // Table Header: Title, Search Bar, Sort Dropdown
@@ -122,8 +53,9 @@ class _LoanTableState extends State<LoanTable> {
                             const Text(
                               'Loan Table',
                               style: TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 26, // Correct in provided code
+                                fontWeight:
+                                    FontWeight.bold, // Correct in provided code
                                 color: Colors.black,
                               ),
                             ),
@@ -154,7 +86,8 @@ class _LoanTableState extends State<LoanTable> {
                                   border: InputBorder.none,
                                 ),
                                 onChanged: (query) {
-                                  loanDataProvider.updateSearchQuery(query);
+                                  loanProvider.updateSearchQuery(
+                                      query); // Updated: Changed to loanProvider
                                 },
                               ),
                             ),
@@ -179,7 +112,8 @@ class _LoanTableState extends State<LoanTable> {
                                     .toList(),
                                 onChanged: (value) {
                                   selectedSortOption = value!;
-                                  loanDataProvider.updateSortOption(value);
+                                  loanProvider.updateSortOption(
+                                      value); // Updated: Changed to loanProvider
                                 },
                               ),
                             ),
@@ -315,15 +249,15 @@ class _LoanTableState extends State<LoanTable> {
                                     ),
                                   )),
                                 ],
-                                rows: loanDataProvider.loans
+                                rows: loanProvider.loans
                                     .where((loan) =>
                                         loan.userRegistration.name
                                             .toLowerCase()
-                                            .contains(loanDataProvider
-                                                .searchQuery
+                                            .contains(loanProvider.searchQuery
                                                 .toLowerCase()) ||
-                                        loan.id.toString().contains(
-                                            loanDataProvider.searchQuery))
+                                        loan.id
+                                            .toString()
+                                            .contains(loanProvider.searchQuery))
                                     .map((loan) {
                                   return DataRow(cells: [
                                     DataCell(Text(loan.id.toString())),
@@ -337,8 +271,9 @@ class _LoanTableState extends State<LoanTable> {
                                         Text(loan.totalpay.toStringAsFixed(2))),
                                     DataCell(Text(loan.tenure.toString())),
                                     DataCell(Text(loan.status)),
-                                    DataCell(Text(loanDataProvider
-                                        .formatDate(loan.requestdate))),
+                                    DataCell(Text(loanProvider.formatDate(loan
+                                        .requestdate
+                                        .toIso8601String()))), // Updated: Convert DateTime to String for formatDate
                                   ]);
                                 }).toList(),
                               ),
@@ -354,7 +289,8 @@ class _LoanTableState extends State<LoanTable> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Refresh the loan data when pressed
-          Provider.of<LoanDataProvider>(context, listen: false).fetchLoanData();
+          Provider.of<LoanProvider>(context, listen: false)
+              .fetchLoanData(); // Updated: Changed LoanDataProvider to LoanProvider
         },
         child: const Icon(Icons.refresh),
       ),

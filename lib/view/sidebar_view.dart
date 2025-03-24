@@ -171,9 +171,10 @@ class SidebarView extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Row(
         children: [
-          const CircleAvatar(
-            radius: 20,
-            backgroundImage: NetworkImage("https://via.placeholder.com/50"),
+          const Icon(
+            Icons.account_circle, // Profile icon
+            size: 40, // Size of the icon
+            color: Colors.white, // Color of the icon
           ),
           const SizedBox(width: 10),
           Expanded(

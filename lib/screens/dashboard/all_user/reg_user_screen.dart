@@ -1,4 +1,5 @@
 import 'package:admin_panel/screens/dashboard/all_user/reg_user_view_mode.dart';
+import 'package:admin_panel/screens/dashboard/user_details/user_details_screen.dart';
 import 'package:admin_panel/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ class _RegUserScreenState extends State<RegUserScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Fetch users when the screen is loaded
       Provider.of<RegUserViewModel>(context, listen: false).fetchUsers();
     });
   }
@@ -36,7 +38,7 @@ class _RegUserScreenState extends State<RegUserScreen> {
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
                     children: [
-                      // Table Header: Title, Search Bar, Sort Dropdown
+                      // Header Section: Title, Search Bar, Sort Dropdown
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -50,157 +52,14 @@ class _RegUserScreenState extends State<RegUserScreen> {
                             ),
                           ),
                           // Search Bar
-                          Container(
-                            width: 320,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 4,
-                                  offset: Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: TextField(
-                              controller: _searchController,
-                              decoration: const InputDecoration(
-                                hintText: '🔍 Search by ID, Name, Email, Phone',
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 12),
-                                border: InputBorder.none,
-                              ),
-                              onChanged: (query) {
-                                userViewModel.searchUsers(query);
-                              },
-                            ),
-                          ),
+                          _buildSearchBar(userViewModel),
                           // Sort Dropdown
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 12),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.grey, width: 1),
-                            ),
-                            child: DropdownButton<String>(
-                              value: _selectedSortOption,
-                              underline: SizedBox(), // Remove default line
-                              items: ['New', 'Old', 'Name', 'Email', 'Country']
-                                  .map((option) => DropdownMenuItem(
-                                        value: option,
-                                        child: Text(option),
-                                      ))
-                                  .toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedSortOption = value!;
-                                });
-                                userViewModel.sortUsers(value!);
-                              },
-                            ),
-                          ),
+                          _buildSortDropdown(),
                         ],
                       ),
                       const SizedBox(height: 12),
                       // Data Table
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minWidth: constraints.maxWidth,
-                          ),
-                          child: DataTable(
-                            border: TableBorder.all(color: Colors.black12),
-                            headingRowHeight: 50,
-                            headingRowColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                return TColors
-                                    .buttonPrimary; // Table header color
-                              },
-                            ),
-                            columns: const [
-                              DataColumn(
-                                  label: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text('User ID',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 16)),
-                              )),
-                              DataColumn(
-                                  label: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text('Name',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 16)),
-                              )),
-                              DataColumn(
-                                  label: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text('Email',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 16)),
-                              )),
-                              DataColumn(
-                                  label: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text('Phone No',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 16)),
-                              )),
-                              DataColumn(
-                                  label: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text('Address',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 16)),
-                              )),
-                              DataColumn(
-                                  label: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text('Country',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 16)),
-                              )),
-                            ],
-                            rows: userViewModel.filteredUsers.map((user) {
-                              return DataRow(
-                                cells: [
-                                  DataCell(Text(user.userid)),
-                                  DataCell(Text(user.name)),
-                                  DataCell(Text(user.email)),
-                                  DataCell(Text(user.phoneNo ??
-                                      'N/A')), // Provide 'N/A' if PhoneNO is null
-                                  DataCell(Text(user.address ??
-                                      'N/A')), // Provide 'N/A' if address is null
-
-                                  DataCell(Text(user.country)),
-                                ],
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
+                      _buildDataTable(context, constraints, userViewModel),
                     ],
                   ),
                 );
@@ -208,10 +67,140 @@ class _RegUserScreenState extends State<RegUserScreen> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          // Refresh user list
           Provider.of<RegUserViewModel>(context, listen: false).fetchUsers();
         },
         child: const Icon(Icons.refresh),
       ),
     );
   }
+
+  // Search bar widget
+  Widget _buildSearchBar(RegUserViewModel userViewModel) {
+    return Container(
+      width: 320,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: _searchController,
+        decoration: const InputDecoration(
+          hintText: '🔍 Search by ID, Name, Email, Phone',
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          border: InputBorder.none,
+        ),
+        onChanged: (query) {
+          userViewModel.searchUsers(query);
+        },
+      ),
+    );
+  }
+
+  // Sort dropdown widget
+  Widget _buildSortDropdown() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey, width: 1),
+      ),
+      child: DropdownButton<String>(
+        value: _selectedSortOption,
+        underline: const SizedBox(), // Remove default underline
+        items: ['New', 'Old', 'Name', 'Email', 'Country']
+            .map((option) => DropdownMenuItem(
+                  value: option,
+                  child: Text(option),
+                ))
+            .toList(),
+        onChanged: (value) {
+          setState(() {
+            _selectedSortOption = value!;
+          });
+          Provider.of<RegUserViewModel>(context, listen: false)
+              .sortUsers(value!);
+        },
+      ),
+    );
+  }
+
+  // Data Table widget
+  Widget _buildDataTable(BuildContext context, BoxConstraints constraints,
+      RegUserViewModel userViewModel) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: constraints.maxWidth,
+        ),
+        child: DataTable(
+          border: TableBorder.all(color: Colors.black12),
+          headingRowHeight: 50,
+          headingRowColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+              return TColors.buttonPrimary; // Table header color
+            },
+          ),
+          columns: const [
+            DataColumn(label: Text('User ID', style: _tableHeaderTextStyle)),
+            DataColumn(label: Text('Name', style: _tableHeaderTextStyle)),
+            DataColumn(label: Text('Email', style: _tableHeaderTextStyle)),
+            DataColumn(label: Text('Phone No', style: _tableHeaderTextStyle)),
+            DataColumn(label: Text('Address', style: _tableHeaderTextStyle)),
+            DataColumn(label: Text('Country', style: _tableHeaderTextStyle)),
+          ],
+          rows: userViewModel.filteredUsers.map((user) {
+            return DataRow(
+              cells: [
+                DataCell(
+                  GestureDetector(
+                    onTap: () {
+                      // Navigate to the user details screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserDetailScreen(
+                            userid: user.userid,
+                            name: user.name,
+                            email: user.email,
+                            phoneNo: user.phoneNo ??
+                                'N/A', // Use 'N/A' if phoneNo is null
+                            address: user.address ??
+                                'N/A', // Use 'N/A' if address is null
+                            country: user.country,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Text(user.userid),
+                  ),
+                ),
+                DataCell(Text(user.name)),
+                DataCell(Text(user.email)),
+                DataCell(Text(user.phoneNo ?? 'N/A')),
+                DataCell(Text(user.address ?? 'N/A')),
+                DataCell(Text(user.country)),
+              ],
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  // Table header text style
+  static const TextStyle _tableHeaderTextStyle = TextStyle(
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    fontSize: 16,
+  );
 }

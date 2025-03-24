@@ -12,23 +12,21 @@ class DepositScreen extends StatelessWidget {
     String selectedSortOption = 'New';
 
     return Scaffold(
-      backgroundColor: Colors.grey[100], // Light background for contrast
+      backgroundColor: Colors.grey[100],
       body: Consumer<DepositViewModel>(
         builder: (context, viewModel, child) {
           return viewModel.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : LayoutBuilder(
                   builder: (context, constraints) {
                     return SingleChildScrollView(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: EdgeInsets.all(12.0),
                       child: Column(
                         children: [
-                          // Table Header: Title, Search Bar, Sort Dropdown
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              // Screen Title
-                              const Text(
+                              Text(
                                 'Deposit Details',
                                 style: TextStyle(
                                   fontSize: 26,
@@ -36,7 +34,6 @@ class DepositScreen extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                               ),
-                              // Search Bar
                               Container(
                                 width: 320,
                                 decoration: BoxDecoration(
@@ -52,7 +49,7 @@ class DepositScreen extends StatelessWidget {
                                 ),
                                 child: TextField(
                                   controller: searchController,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     hintText: '🔍 Search by ID or Name',
                                     contentPadding: EdgeInsets.symmetric(
                                         horizontal: 16, vertical: 12),
@@ -63,7 +60,6 @@ class DepositScreen extends StatelessWidget {
                                   },
                                 ),
                               ),
-                              // Sort Dropdown
                               Container(
                                 padding: EdgeInsets.symmetric(horizontal: 12),
                                 decoration: BoxDecoration(
@@ -74,7 +70,7 @@ class DepositScreen extends StatelessWidget {
                                 ),
                                 child: DropdownButton<String>(
                                   value: selectedSortOption,
-                                  underline: SizedBox(), // Remove default line
+                                  underline: SizedBox(),
                                   items: ['New', 'Old', 'Name', 'Country']
                                       .map((option) => DropdownMenuItem(
                                             value: option,
@@ -89,168 +85,71 @@ class DepositScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 12),
-                          // Data Table with Fixed Header
+                          SizedBox(height: 12),
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minWidth: constraints.maxWidth,
+                            child: DataTable(
+                              columnSpacing: 25,
+                              border: TableBorder.all(color: Colors.black12),
+                              headingRowColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                                  return TColors.buttonPrimary;
+                                },
                               ),
-                              child: SingleChildScrollView(
-                                child: DataTable(
-                                  columnSpacing: 10,
-                                  border:
-                                      TableBorder.all(color: Colors.black12),
-                                  headingRowHeight: 50,
-                                  headingRowColor:
-                                      MaterialStateProperty.resolveWith<Color>(
-                                    (Set<MaterialState> states) {
-                                      return TColors
-                                          .buttonPrimary; // Table header color
-                                    },
-                                  ),
-                                  columns: const [
-                                    DataColumn(
-                                        label: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        'ID',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16),
-                                      ),
-                                    )),
-                                    DataColumn(
-                                        label: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        'UserID',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16),
-                                      ),
-                                    )),
-                                    DataColumn(
-                                        label: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        'Name',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16),
-                                      ),
-                                    )),
-                                    DataColumn(
-                                        label: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        'Country',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16),
-                                      ),
-                                    )),
-                                    DataColumn(
-                                        label: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        'Add Balance',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16),
-                                      ),
-                                    )),
-                                    DataColumn(
-                                        label: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        'Deposit B',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16),
-                                      ),
-                                    )),
-                                    DataColumn(
-                                        label: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        'Package',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16),
-                                      ),
-                                    )),
-                                    DataColumn(
-                                        label: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        'Profit',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16),
-                                      ),
-                                    )),
-                                    DataColumn(
-                                        label: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        'Withdraw B',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16),
-                                      ),
-                                    )),
+                              columns: [
+                                DataColumn(
+                                    label: Text('ID', style: _headerStyle())),
+                                DataColumn(
+                                    label:
+                                        Text('User ID', style: _headerStyle())),
+                                DataColumn(
+                                    label: Text('Name', style: _headerStyle())),
+                                DataColumn(
+                                    label:
+                                        Text('Country', style: _headerStyle())),
+                                DataColumn(
+                                    label: Text('Add Balance',
+                                        style: _headerStyle())),
+                                DataColumn(
+                                    label: Text('Deposit B',
+                                        style: _headerStyle())),
+                                DataColumn(
+                                    label: Text('Packages',
+                                        style: _headerStyle())),
+                                DataColumn(
+                                    label: Text('Profit B',
+                                        style: _headerStyle())),
+                                DataColumn(
+                                    label: Text('Deposit Withdraw',
+                                        style: _headerStyle())),
+                                DataColumn(
+                                    label: Text('Profit Withdraw',
+                                        style: _headerStyle())),
+                              ],
+                              rows: viewModel.balances.map((balance) {
+                                return DataRow(
+                                  cells: [
+                                    DataCell(Text(balance.id.toString())),
+                                    DataCell(
+                                        Text(balance.userRegistration.userid)),
+                                    DataCell(
+                                        Text(balance.userRegistration.name)),
+                                    DataCell(
+                                        Text(balance.userRegistration.country)),
+                                    DataCell(
+                                        Text(balance.addBalance.toString())),
+                                    DataCell(Text(balance.dipositB.toString())),
+                                    DataCell(Text(balance.packages)),
+                                    DataCell(Text(
+                                        balance.profitB.toStringAsFixed(2))),
+                                    DataCell(Text(
+                                        balance.dipositwithdra.toString())),
+                                    DataCell(
+                                        Text(balance.profitwithdra.toString())),
                                   ],
-                                  // Inside your DepositScreen widget (UI)
-                                  rows: viewModel.balances.map((balance) {
-                                    return DataRow(
-                                      cells: [
-                                        DataCell(Text(balance.id.toString())),
-                                        DataCell(Text(balance.userId)),
-                                        DataCell(Text(balance.name)),
-                                        DataCell(Text(balance.country)),
-                                        DataCell(Text(
-                                            balance.addBalance.toString())),
-                                        DataCell(
-                                            Text(balance.depositB.toString())),
-                                        DataCell(Text(balance.packages)),
-                                        DataCell(
-                                            Text(balance.profitB.toString())),
-                                        DataCell(
-                                            Text(balance.withdrawB.toString())),
-                                      ],
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
+                                );
+                              }).toList(),
                             ),
                           ),
                         ],
@@ -262,11 +161,18 @@ class DepositScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Trigger the fetch balances action when the button is pressed
           context.read<DepositViewModel>().fetchBalances();
         },
-        child: const Icon(Icons.refresh),
+        child: Icon(Icons.refresh),
       ),
+    );
+  }
+
+  TextStyle _headerStyle() {
+    return TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+      fontSize: 16,
     );
   }
 }

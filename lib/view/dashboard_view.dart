@@ -33,7 +33,7 @@ class DashboardView extends StatelessWidget {
                   case 'Inactive User':
                     return const InactiveUser();
                   case 'Deposit':
-                    return const DepositScreen();
+                    return DepositScreen();
                   case 'Bank Withdraw':
                     return const BankWithdraw();
                   case 'Crypto Withdraw':
@@ -42,6 +42,7 @@ class DashboardView extends StatelessWidget {
                     return LoanScreen();
                   case 'Emi':
                     return const EmiScreen();
+
                   // Add other cases here
                   default:
                     return Center(

@@ -20,7 +20,7 @@ class RegUserViewModel extends ChangeNotifier {
 
     try {
       final response = await http.get(
-        Uri.parse('http://108.181.173.121:7071/api/userRegistration/get'),
+        Uri.parse('http://108.181.173.121:6160/api/userRegistration/get'),
         // Uri.parse('http://84.247.161.200:9090/api/microbank/get'),
       );
 

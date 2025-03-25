@@ -1,5 +1,5 @@
 import 'package:admin_panel/configs/utils/constants/colors.dart';
-import 'package:admin_panel/screens/dashboard/user_details/user_details_screen.dart';
+import 'package:admin_panel/screens/dashboard/deposit/deposit_user_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'deposit_view_model.dart';
@@ -132,27 +132,16 @@ class DepositScreen extends StatelessWidget {
                                 return DataRow(
                                   cells: [
                                     DataCell(Text(balance.id.toString())),
-                                    // Changed: Added navigation for UserID
                                     DataCell(
+                                      // Changed: Navigating to DepositUserDetailScreen
                                       GestureDetector(
                                         onTap: () {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  UserDetailScreen(
-                                                userid: balance
-                                                    .userRegistration.userid,
-                                                name: balance
-                                                    .userRegistration.name,
-                                                email: 'N/A',
-                                                phoneNo:
-                                                    'N/A', // Placeholder (phoneNo not in Balance model)
-                                                address:
-                                                    'N/A', // Placeholder (address not in Balance model)
-                                                country: balance
-                                                    .userRegistration.country,
-                                              ),
+                                                  DepositUserDetailScreen(
+                                                      balance: balance),
                                             ),
                                           );
                                         },

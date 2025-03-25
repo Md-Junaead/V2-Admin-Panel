@@ -1,4 +1,4 @@
-import 'package:admin_panel/view/sidebar_view.dart';
+import 'package:admin_panel/screens/sidebar/sidebar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_panel/screens/dashboard/loan/loan_model.dart'; // Import the LoanModel
 
@@ -22,7 +22,7 @@ class LoanUserDetailScreen extends StatelessWidget {
             child: Scaffold(
               // updated line: wrap content in an inner Scaffold
               appBar: AppBar(
-                title: const Text('User Details'),
+                title: const Text('Loan Details'),
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {

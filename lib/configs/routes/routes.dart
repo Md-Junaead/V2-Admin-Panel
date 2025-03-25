@@ -6,8 +6,8 @@ import 'package:admin_panel/screens/dashboard/withdraw/crypto_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/loan/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user/inactive_user.dart';
 import 'package:admin_panel/screens/dashboard/loan/loan_screen.dart';
-import 'package:admin_panel/screens/deposit/deposit_screen.dart';
-import 'package:admin_panel/view/dashboard_view.dart';
+import 'package:admin_panel/screens/dashboard/deposit/deposit_screen.dart';
+import 'package:admin_panel/screens/sidebar/dashboard_view.dart';
 import 'package:flutter/material.dart';
 
 class Routes {

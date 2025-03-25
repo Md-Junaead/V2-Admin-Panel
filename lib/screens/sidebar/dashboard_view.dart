@@ -6,11 +6,11 @@ import 'package:admin_panel/screens/dashboard/withdraw/crypto_withdraw.dart';
 import 'package:admin_panel/screens/dashboard/loan/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user/inactive_user.dart';
 import 'package:admin_panel/screens/dashboard/loan/loan_screen.dart';
-import 'package:admin_panel/screens/deposit/deposit_screen.dart';
-import 'package:admin_panel/view/sidebar_view.dart';
+import 'package:admin_panel/screens/dashboard/deposit/deposit_screen.dart';
+import 'package:admin_panel/screens/sidebar/sidebar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:admin_panel/view_models/sidebar_view_model.dart';
+import 'package:admin_panel/screens/sidebar/sidebar_view_model.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});

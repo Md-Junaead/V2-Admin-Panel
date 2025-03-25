@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:admin_panel/view_models/sidebar_view_model.dart';
+import 'package:admin_panel/screens/sidebar/sidebar_view_model.dart';
 
 class SidebarView extends StatelessWidget {
   const SidebarView({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:admin_panel/view/sidebar_view.dart'; // updated line: import SidebarView
+import 'package:admin_panel/screens/sidebar/sidebar_view.dart'; // updated line: import SidebarView
 
 class UserDetailScreen extends StatelessWidget {
   final String userid;

@@ -1,3 +1,5 @@
+import 'package:admin_panel/screens/dashboard/all_user/reg_model.dart';
+import 'package:admin_panel/screens/dashboard/user_details/user_details_screen.dart';
 import 'package:admin_panel/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -131,8 +133,34 @@ class DepositScreen extends StatelessWidget {
                                 return DataRow(
                                   cells: [
                                     DataCell(Text(balance.id.toString())),
+                                    // Changed: Added navigation for UserID
                                     DataCell(
-                                        Text(balance.userRegistration.userid)),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserDetailScreen(
+                                                userid: balance
+                                                    .userRegistration.userid,
+                                                name: balance
+                                                    .userRegistration.name,
+                                                email: 'N/A',
+                                                phoneNo:
+                                                    'N/A', // Placeholder (phoneNo not in Balance model)
+                                                address:
+                                                    'N/A', // Placeholder (address not in Balance model)
+                                                country: balance
+                                                    .userRegistration.country,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                            balance.userRegistration.userid),
+                                      ),
+                                    ),
                                     DataCell(
                                         Text(balance.userRegistration.name)),
                                     DataCell(

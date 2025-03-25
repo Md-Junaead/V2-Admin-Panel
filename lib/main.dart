@@ -12,7 +12,7 @@ void main() => runApp(const AdminPanel());
 class AdminPanel extends StatelessWidget {
   const AdminPanel({super.key});
 
-  @override
+  @override //flutter build windows
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [

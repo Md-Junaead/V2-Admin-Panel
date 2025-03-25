@@ -1,4 +1,6 @@
 import 'package:admin_panel/screens/dashboard/loan/loan_provider.dart';
+import 'package:admin_panel/screens/dashboard/loan/loan_user_details_screen.dart';
+import 'package:admin_panel/screens/dashboard/user_details/user_details_screen.dart';
 import 'package:admin_panel/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -261,8 +263,28 @@ class _LoanTableState extends State<LoanTable> {
                                     .map((loan) {
                                   return DataRow(cells: [
                                     DataCell(Text(loan.id.toString())),
+                                    // Modified: Made userID clickable to navigate to UserDetailScreen
+                                    // Inside the DataRow mapping in LoanTable
                                     DataCell(
-                                        Text(loan.userRegistration.userid)),
+                                      GestureDetector(
+                                        onTap: () {
+                                          // Navigate to the LoanUser DetailScreen
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoanUserDetailScreen(
+                                                // Added this line
+                                                loan:
+                                                    loan, // Pass the loan object to the LoanUser DetailScreen
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child:
+                                            Text(loan.userRegistration.userid),
+                                      ),
+                                    ),
                                     DataCell(Text(loan.userRegistration.name)),
                                     DataCell(Text(loan.loanamuont.toString())),
                                     DataCell(Text(

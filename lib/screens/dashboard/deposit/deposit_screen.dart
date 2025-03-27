@@ -151,8 +151,9 @@ class DepositScreen extends StatelessWidget {
                                     ),
                                     DataCell(
                                         Text(balance.userRegistration.name)),
-                                    DataCell(
-                                        Text(balance.userRegistration.country)),
+                                    DataCell(Text(
+                                        balance.userRegistration.country ??
+                                            'N/A')),
                                     DataCell(
                                         Text(balance.addBalance.toString())),
                                     DataCell(Text(balance.dipositB.toString())),

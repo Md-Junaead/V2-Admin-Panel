@@ -64,8 +64,9 @@ class DepositViewModel extends ChangeNotifier {
             a.userRegistration.name.compareTo(b.userRegistration.name));
         break;
       case 'Country':
-        _balances.sort((a, b) =>
-            a.userRegistration.country.compareTo(b.userRegistration.country));
+        _balances.sort((a, b) => (a.userRegistration.country ?? '')
+            .toLowerCase()
+            .compareTo((b.userRegistration.country ?? '').toLowerCase()));
         break;
     }
     _filteredBalances = _balances; // Reset filtered list after sorting

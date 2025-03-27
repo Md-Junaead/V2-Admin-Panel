@@ -18,33 +18,38 @@ class _RegUserScreenState extends State<RegUserScreen> {
   @override
   void initState() {
     super.initState();
+    _debug("initState: Entered initState");
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Fetch users when the screen is loaded
+      _debug("PostFrameCallback: About to fetch users");
       Provider.of<RegUserViewModel>(context, listen: false).fetchUsers();
+      _debug("PostFrameCallback: fetchUsers called");
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    _debug("build: Building RegUserScreen");
     final userViewModel = Provider.of<RegUserViewModel>(context);
+    _debug("build: Obtained userViewModel");
 
     return Scaffold(
-      backgroundColor: Colors.grey[100], // Light background for contrast
+      backgroundColor: Colors.grey[100],
       body: userViewModel.isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(
+              child: const CircularProgressIndicator(),
+            )
           : LayoutBuilder(
               builder: (context, constraints) {
+                _debug(
+                    "LayoutBuilder: constraints.maxWidth = ${constraints.maxWidth}");
                 return SelectionArea(
-                  // updated line: wrap with SelectionArea to enable text selection on desktop
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(
                       children: [
-                        // Header Section: Title, Search Bar, Sort Dropdown
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Screen Title
                             const Text(
                               'All Users',
                               style: TextStyle(
@@ -53,14 +58,11 @@ class _RegUserScreenState extends State<RegUserScreen> {
                                 color: Colors.black,
                               ),
                             ),
-                            // Search Bar
                             _buildSearchBar(userViewModel),
-                            // Sort Dropdown
                             _buildSortDropdown(),
                           ],
                         ),
                         const SizedBox(height: 12),
-                        // Data Table
                         _buildDataTable(context, constraints, userViewModel),
                       ],
                     ),
@@ -70,16 +72,17 @@ class _RegUserScreenState extends State<RegUserScreen> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Refresh user list
+          _debug("FloatingActionButton: Refresh pressed");
           Provider.of<RegUserViewModel>(context, listen: false).fetchUsers();
+          _debug("FloatingActionButton: fetchUsers called");
         },
         child: const Icon(Icons.refresh),
       ),
     );
   }
 
-  // Search bar widget
   Widget _buildSearchBar(RegUserViewModel userViewModel) {
+    _debug("_buildSearchBar: Building search bar widget");
     return Container(
       width: 320,
       decoration: BoxDecoration(
@@ -101,14 +104,16 @@ class _RegUserScreenState extends State<RegUserScreen> {
           border: InputBorder.none,
         ),
         onChanged: (query) {
+          _debug("TextField onChanged: query = $query");
           userViewModel.searchUsers(query);
+          _debug("TextField onChanged: searchUsers called");
         },
       ),
     );
   }
 
-  // Sort dropdown widget
   Widget _buildSortDropdown() {
+    _debug("_buildSortDropdown: Building sort dropdown widget");
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
@@ -118,27 +123,32 @@ class _RegUserScreenState extends State<RegUserScreen> {
       ),
       child: DropdownButton<String>(
         value: _selectedSortOption,
-        underline: const SizedBox(), // Remove default underline
-        items: ['New', 'Old', 'Name', 'Email', 'Country']
-            .map((option) => DropdownMenuItem(
-                  value: option,
-                  child: Text(option),
-                ))
-            .toList(),
+        underline: const SizedBox(),
+        items: ['New', 'Old', 'Name', 'Email', 'Country'].map((option) {
+          _debug("Dropdown item: Adding option $option");
+          return DropdownMenuItem(
+            value: option,
+            child: Text(option),
+          );
+        }).toList(),
         onChanged: (value) {
+          _debug("Dropdown onChanged: Selected value = $value");
           setState(() {
             _selectedSortOption = value!;
+            _debug(
+                "setState: _selectedSortOption updated to $_selectedSortOption");
           });
           Provider.of<RegUserViewModel>(context, listen: false)
               .sortUsers(value!);
+          _debug("Dropdown onChanged: sortUsers called with $value");
         },
       ),
     );
   }
 
-  // Data Table widget
   Widget _buildDataTable(BuildContext context, BoxConstraints constraints,
       RegUserViewModel userViewModel) {
+    _debug("_buildDataTable: Building data table widget");
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: ConstrainedBox(
@@ -150,7 +160,8 @@ class _RegUserScreenState extends State<RegUserScreen> {
           headingRowHeight: 50,
           headingRowColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
-              return TColors.buttonPrimary; // Table header color
+              _debug("DataTable headingRowColor callback invoked");
+              return TColors.buttonPrimary;
             },
           ),
           columns: const [
@@ -162,12 +173,14 @@ class _RegUserScreenState extends State<RegUserScreen> {
             DataColumn(label: Text('Country', style: _tableHeaderTextStyle)),
           ],
           rows: userViewModel.filteredUsers.map((user) {
+            _debug("Building DataRow for user: ${user.userid}");
             return DataRow(
               cells: [
                 DataCell(
                   GestureDetector(
                     onTap: () {
-                      // Navigate to the user details screen
+                      _debug(
+                          "DataCell onTap: Navigating to details for user: ${user.userid}");
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -175,14 +188,13 @@ class _RegUserScreenState extends State<RegUserScreen> {
                             userid: user.userid,
                             name: user.name,
                             email: user.email,
-                            phoneNo: user.phoneNo ??
-                                'N/A', // Use 'N/A' if phoneNo is null
-                            address: user.address ??
-                                'N/A', // Use 'N/A' if address is null
-                            country: user.country,
+                            phoneNo: user.phoneNo ?? 'N/A',
+                            address: user.address ?? 'N/A',
+                            country: user.country ?? 'N/A',
                           ),
                         ),
                       );
+                      _debug("Navigation pushed for user: ${user.userid}");
                     },
                     child: Text(user.userid),
                   ),
@@ -191,7 +203,7 @@ class _RegUserScreenState extends State<RegUserScreen> {
                 DataCell(Text(user.email)),
                 DataCell(Text(user.phoneNo ?? 'N/A')),
                 DataCell(Text(user.address ?? 'N/A')),
-                DataCell(Text(user.country)),
+                DataCell(Text(user.country ?? 'N/A')),
               ],
             );
           }).toList(),
@@ -200,10 +212,13 @@ class _RegUserScreenState extends State<RegUserScreen> {
     );
   }
 
-  // Table header text style
   static const TextStyle _tableHeaderTextStyle = TextStyle(
     fontWeight: FontWeight.bold,
     color: Colors.white,
     fontSize: 16,
   );
+
+  void _debug(String message) {
+    debugPrint("[DEBUG] $message");
+  }
 }

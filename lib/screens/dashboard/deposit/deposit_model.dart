@@ -36,12 +36,12 @@ class Balance {
 class UserRegistration {
   final String userid;
   final String name;
-  final String country;
+  final String? country; // Change from String to String?
 
   UserRegistration({
     required this.userid,
     required this.name,
-    required this.country,
+    this.country,
   });
 
   factory UserRegistration.fromJson(Map<String, dynamic> json) {

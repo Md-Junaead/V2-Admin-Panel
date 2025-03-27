@@ -81,8 +81,8 @@ class DepositUserDetailScreen extends StatelessWidget {
                               thickness: 1,
                               color: Colors.grey,
                             ),
-                            _buildDetailRow(
-                                'Country', balance.userRegistration.country),
+                            _buildDetailRow('Country',
+                                balance.userRegistration.country ?? 'N/A'),
                             const Divider(
                               height: 5,
                               thickness: 1,

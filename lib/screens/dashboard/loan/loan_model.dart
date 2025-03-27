@@ -67,7 +67,7 @@ class UserRegistration {
   String password;
   String? phoneNo;
   String? address;
-  String country;
+  final String? country; // Change from String to String?
   DateTime? dob;
   String referralCode;
   String? nidnumber;
@@ -90,7 +90,7 @@ class UserRegistration {
     required this.password,
     this.phoneNo,
     this.address,
-    required this.country,
+    this.country,
     this.dob,
     required this.referralCode,
     this.nidnumber,

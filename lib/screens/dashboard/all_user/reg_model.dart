@@ -8,7 +8,7 @@ class UserRegistration {
   final String password;
   final String? phoneNo;
   final String? address;
-  final String country;
+  final String? country; // Change from String to String?
   final DateTime? dob;
   final String referralCode;
   final String? nidnumber;
@@ -31,7 +31,7 @@ class UserRegistration {
     required this.password,
     this.phoneNo,
     this.address,
-    required this.country,
+    this.country, // Remove 'required' and allow null
     this.dob,
     required this.referralCode,
     this.nidnumber,
@@ -56,7 +56,7 @@ class UserRegistration {
       password: json['password'],
       phoneNo: json['phoneNo'],
       address: json['address'],
-      country: json['country'],
+      country: json['country'] as String?, // Cast to String?
       dob: json['dob'] != null ? DateTime.parse(json['dob']) : null,
       referralCode: json['referralCode'],
       nidnumber: json['nidnumber'],
@@ -107,38 +107,3 @@ class UserRegistration {
     return jsonEncode(toJson());
   }
 }
-
-// class RegUserModel {
-//   final int id;
-//   final String userId;
-//   final String name;
-//   final String email;
-//   final String phoneNo;
-//   final String address;
-//   final String country;
-//   final String image;
-
-//   RegUserModel({
-//     required this.id,
-//     required this.userId,
-//     required this.name,
-//     required this.email,
-//     required this.phoneNo,
-//     required this.address,
-//     required this.country,
-//     required this.image,
-//   });
-
-//   factory RegUserModel.fromJson(Map<String, dynamic> json) {
-//     return RegUserModel(
-//       id: json['id'],
-//       userId: json['userid'],
-//       name: json['name'],
-//       email: json['email'],
-//       phoneNo: json['phoneNo'],
-//       address: json['address'],
-//       country: json['country'],
-//       image: json['image'],
-//     );
-//   }
-// }

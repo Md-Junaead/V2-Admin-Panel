@@ -22,7 +22,7 @@ class LoanProvider with ChangeNotifier {
   // Fetch loan data from the API
   Future<void> fetchLoanData() async {
     final url =
-        'http://108.181.173.121:6160/api/loan/get'; // Updated: Removed extra space from original 'http://108.181.173.121:6160/ api/loan/get'
+        'http://75.119.134.82:6160/api/loan/get'; // Updated: Removed extra space from original 'http://108.181.173.121:6160/ api/loan/get'
 
     try {
       final response = await http.get(Uri.parse(url));

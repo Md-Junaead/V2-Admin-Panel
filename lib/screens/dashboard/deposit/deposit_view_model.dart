@@ -21,7 +21,7 @@ class DepositViewModel extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    final url = Uri.parse('http://108.181.173.121:6160/api/Balance/get');
+    final url = Uri.parse('http://75.119.134.82:6160/api/Balance/get');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

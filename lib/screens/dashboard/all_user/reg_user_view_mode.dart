@@ -28,7 +28,7 @@ class RegUserViewModel extends ChangeNotifier {
     try {
       _debug("Fetching users from API...");
       final response = await http.get(
-        Uri.parse('http://108.181.173.121:6160/api/userRegistration/get'),
+        Uri.parse('http://75.119.134.82:6160/api/userRegistration/get'),
       );
       _debug("HTTP GET request complete");
 

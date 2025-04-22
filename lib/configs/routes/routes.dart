@@ -7,6 +7,7 @@ import 'package:admin_panel/screens/dashboard/loan/emi.dart';
 import 'package:admin_panel/screens/dashboard/inactive_user/inactive_user.dart';
 import 'package:admin_panel/screens/dashboard/loan/loan_screen.dart';
 import 'package:admin_panel/screens/dashboard/deposit/deposit_screen.dart';
+import 'package:admin_panel/screens/login/login_screen.dart';
 import 'package:admin_panel/screens/sidebar/dashboard_view.dart';
 import 'package:flutter/material.dart';
 
@@ -14,10 +15,6 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       //VerticalMenu routes
-
-      case RoutesName.dashBoard:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => DashboardView());
 
       case RoutesName.allUser:
         return MaterialPageRoute(
@@ -50,6 +47,14 @@ class Routes {
       case RoutesName.emiScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => const EmiScreen());
+
+      case RoutesName.loginScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const LoginScreen());
+
+      case RoutesName.dashboardView:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const DashboardView());
 
       default:
         return MaterialPageRoute(builder: (_) {

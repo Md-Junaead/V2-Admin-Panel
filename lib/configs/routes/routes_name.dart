@@ -1,6 +1,5 @@
 class RoutesName {
 //VericalMenu routes name
-  static const String dashBoard = 'Dashboard';
   static const String allUser = 'AllUser';
   static const String regUserScreen = 'RegUserScreen';
   static const String inactiveUser = 'InactiveUser';
@@ -9,4 +8,6 @@ class RoutesName {
   static const String cryptoWithdraw = 'CryptoWithdraw';
   static const String loanScreen = 'LoanScreen';
   static const String emiScreen = 'EmiScreen';
+  static const String loginScreen = 'LoginScreen';
+  static const String dashboardView = 'DashboardView';
 }
